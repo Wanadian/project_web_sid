@@ -1,6 +1,9 @@
 //Get bearer from header
 import jwt from "jsonwebtoken";
 
+//Practical
+const SECRET = "toto"
+
 const extractBearerToken = headerValue => {
     if (typeof headerValue !== 'string') {
         return false
@@ -14,12 +17,12 @@ export const checkTokenMiddleware = (req, res, next) => {
     const token = req.headers.authorization && extractBearerToken(req.headers.authorization)
     // Check if exist
     if (!token) {
-        return res.status(401).json({ message: 'Error. Need a token' })
+        return res.status(401).json({message: 'Error. Need a token'})
     }
     // Check token validity
     jwt.verify(token, SECRET, (err, decodedToken) => {
         if (err) {
-            res.status(401).json({ message: 'Error. Bad token' })
+            res.status(401).json({message: 'Error. Bad token'})
         } else {
             return next()
         }
