@@ -1,5 +1,5 @@
 import express from 'express';
-import {checkTokenMiddleware} from '../RequestFilter.js';
+import {checkTokenMiddleware} from '../requestFilter.js';
 import {Order} from '../model.js';
 import {Dish} from '../model.js';
 
