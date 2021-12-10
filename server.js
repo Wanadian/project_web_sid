@@ -1,5 +1,3 @@
-<<<<<<< HEAD
-//All const
 import express from 'express';
 //const express = require("express")
 const app = express()
@@ -125,4 +123,3 @@ app.use(ORDER_ROUTER);
 
 app.listen(1324);
 console.log("server started");
->>>>>>> master
