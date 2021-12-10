@@ -1,5 +1,5 @@
 import express from 'express';
-import {checkTokenMiddleware} from '../RequestFilter.js';
+import {checkTokenMiddleware} from '../requestFilter.js';
 import {Dish} from '../model.js';
 
 const router = express.Router();
