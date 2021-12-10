@@ -1,8 +1,15 @@
 //Get bearer from header
+<<<<<<< HEAD
 import jwt from "jsonwebtoken";
 
 //Practical
 const SECRET = "toto"
+=======
+import jwt from 'jsonwebtoken';
+
+//Practical
+const SECRET = 'toto'
+>>>>>>> master
 
 const extractBearerToken = headerValue => {
     if (typeof headerValue !== 'string') {
