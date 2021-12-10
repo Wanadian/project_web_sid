@@ -2,6 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import {DISH_ROUTER} from './router/dish.router.js';
 import {ORDER_ROUTER} from './router/order.router.js';
+import {REGISTER_ROUTER} from "./account/register.js";
+import {LOGIN_ROUTER} from "./account/login.js";
 
 //Startup
 const app = express();
@@ -13,6 +15,8 @@ mongoose.connect("mongodb+srv://admin:admin@cluster0.uxksi.mongodb.net/ThamKitch
     .then((response) => console.log("Connected to database"))
     .catch((error) => console.error("Connection failed"));
 
+app.use(REGISTER_ROUTER);
+app.use(LOGIN_ROUTER);
 app.use(DISH_ROUTER);
 app.use(ORDER_ROUTER);
 

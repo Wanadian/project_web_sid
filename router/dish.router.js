@@ -3,44 +3,56 @@ import {checkTokenMiddleware} from '../requestFilter.js';
 import {Dish} from '../model.js';
 
 const router = express.Router();
-const app = express();
 
-router.post('/dish', (request, response) => {
-    //add Dish in menu
-    app.post('/', checkTokenMiddleware, (req, res) => {
-        const dishToSave = new Dish(req.body);
-        dishToSave.save()
-            .then((dish) => res.json(dish));
-    });
+//add Dish in menu
+router.post('/dishes', checkTokenMiddleware, (request, response) => {
+    const {name, price, allergen, description} = request.body;
+    Dish.findOne({name: name})
+        .then(dish => {
+            if (dish) {
+                return response.status(409).json({message: 'Dish already exists'});
+            }
+            const dishToSave = new Dish({name: name, price: price, allergen: allergen, description: description});
+            dishToSave.save()
+                .then((dish) => response.status(200).json(dish));
+        })
+        .catch(() => response.status(500).end());
 });
 
-router.get ('/dish', checkTokenMiddleware, (req, res) =>{
-    //print all dishes
-    app.get('/', checkTokenMiddleware, async (req, res) => {
-        Dish.find()
-            .then((dishes) => res.json(dishes))
-            .catch(() => res.status(404).end());
-    });
-
-    //print one dish by ID
-    app.get('/:id', checkTokenMiddleware, async (req, res) => {
-        Dish.findById(req.params.id)
-            .then((dish) => res.json(dish))
-            .catch(() => res.status(404).end());
-    });
+//print all dishes
+router.get('/dishes', checkTokenMiddleware, (request, response) => {
+    Dish.find()
+        .then((dishes) => {
+            if (!dishes) {
+                response.status(404).end();
+            }
+            return response.json(dishes);
+        })
+        .catch(() => response.status(500).end());
 });
 
-router.delete ('/dish', checkTokenMiddleware, (req, res) =>{
-    //delete one dish by ID in menu
-    app.delete('/:id', checkTokenMiddleware, async (req, res) => {
-        Dish.findByIdAndDelete(req.params.id)
-            .then((dish) => res.json(dish))
-            .catch(() => res.status(404).end());
-    });
+//print one dish by ID
+router.get('/dishes/:name', checkTokenMiddleware, (request, response) => {
+    Dish.findOne({name: request.params.name})
+        .then((dish) => {
+            if (!dish) {
+                response.status(404).end();
+            }
+            return response.json(dish);
+        })
+        .catch(() => response.status(500).end());
 });
 
-router.put ('/dish', checkTokenMiddleware, (req, res) =>{
-
+//delete one dish by ID in menu
+router.delete('/dishes/:name', checkTokenMiddleware, (request, response) => {
+    Dish.findOneAndDelete({name: request.params.name})
+        .then((result) => {
+            if (!result) {
+                response.status(404).end();
+            }
+            response.status(204).end();
+        })
+        .catch(() => response.status(500).end());
 });
 
-export {router as DISH_ROUTER}
+export {router as DISH_ROUTER};
