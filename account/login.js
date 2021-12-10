@@ -17,4 +17,4 @@ app.post('/login', (req, res) => {
     // Create token
     const token = jwt.sign({id: user.id, username: user.username}, SECRET, {expiresIn: '3 hours'});
     return res.json({token: token});
-})
+});
