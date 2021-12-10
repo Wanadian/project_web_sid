@@ -120,6 +120,7 @@ router.patch('/orders/current/validate', checkTokenMiddleware, (request, respons
             if (!order) {
                 return response.status(404).end();
             }
+            order.address = request.body.address;
             order.state = 'closed';
             order.save()
                 .then((order) => response.status(200).json(order).end());
