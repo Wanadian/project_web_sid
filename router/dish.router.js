@@ -4,7 +4,7 @@ import {Dish} from '../model.js';
 
 const router = express.Router();
 
-//add Dish in menu
+//add dish
 router.post('/dishes', checkTokenMiddleware, (request, response) => {
     const {name, price, allergen, description} = request.body;
     Dish.findOne({name: name})
@@ -19,38 +19,38 @@ router.post('/dishes', checkTokenMiddleware, (request, response) => {
         .catch(() => response.status(500).end());
 });
 
-//print all dishes
+//get all dishes
 router.get('/dishes', checkTokenMiddleware, (request, response) => {
     Dish.find()
         .then((dishes) => {
             if (!dishes) {
-                response.status(404).end();
+                response.status(404).json({message: 'No dish found'});
             }
             return response.json(dishes);
         })
         .catch(() => response.status(500).end());
 });
 
-//print one dish by ID
+//get one dish by name
 router.get('/dishes/:name', checkTokenMiddleware, (request, response) => {
     Dish.findOne({name: request.params.name})
         .then((dish) => {
             if (!dish) {
-                response.status(404).end();
+                response.status(404).json({message: 'Dish not found'});
             }
             return response.json(dish);
         })
         .catch(() => response.status(500).end());
 });
 
-//delete one dish by ID in menu
+//delete one dish by name
 router.delete('/dishes/:name', checkTokenMiddleware, (request, response) => {
     Dish.findOneAndDelete({name: request.params.name})
         .then((result) => {
             if (!result) {
-                response.status(404).end();
+                response.status(404).json({message: 'Dish not end'});
             }
-            response.status(204).end();
+            response.status(204).json({message: 'Dish deleted'});
         })
         .catch(() => response.status(500).end());
 });

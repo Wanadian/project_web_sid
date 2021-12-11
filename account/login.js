@@ -24,7 +24,7 @@ router.post('/login', (request, response) => {
             //If user exists
             // Create token
             const token = createJWT(user.id);
-            return response.json({token: token});
+            return response.status(200).json({token: token});
         });
 });
 
