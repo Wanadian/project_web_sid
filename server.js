@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
-mongoose.connect("mongodb+srv://admin:admin@cluster0.uxksi.mongodb.net/ThamKitchen?retryWrites=true&w=majority")
+mongoose.connect("mongodb://localhost:27017/ThamKitchen")
     .then((response) => console.log("Connected to database"))
     .catch((error) => console.error("Connection failed"));
 
