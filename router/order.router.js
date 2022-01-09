@@ -29,7 +29,7 @@ router.get('/orders', checkTokenMiddleware, (request, response) => {
     Order.find({userId: request.auth.id, state: 'closed'})
         .then((orders) => {
             if (!orders) {
-                response.status(404).json({message: 'No dish found'});
+                response.status(404).json({message: 'No order found'});
             }
             return response.status(200).json(orders);
         })
@@ -41,7 +41,7 @@ router.get('/orders/current', checkTokenMiddleware, (request, response) => {
     Order.findOne({userId: request.auth.id, state: 'opened'})
         .then((order) => {
             if (!order) {
-                response.status(404).json({message: 'No opened dish'});
+                response.status(404).json({message: 'No opened order'});
             }
             return response.status(200).json(order);
         })
