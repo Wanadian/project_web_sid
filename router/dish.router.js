@@ -48,7 +48,7 @@ router.delete('/dishes/:name', checkTokenMiddleware, (request, response) => {
     Dish.findOneAndDelete({name: request.params.name})
         .then((result) => {
             if (!result) {
-                response.status(404).json({message: 'Dish not end'});
+                response.status(404).json({message: 'Dish not found'});
             }
             response.status(204).json({message: 'Dish deleted'});
         })
